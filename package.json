@@ -1,0 +1,32 @@
+{
+  "name": "paycoin-electron",
+  "version": "1.0.0",
+  "description": "Paycoin wallet using electron",
+  "main": "index.js",
+  "dependencies": {
+    "bitcoin": "~2.3.0",
+    "electron-prebuilt": "~0.25.3-2",
+    "inherits": "~2.0.1",
+    "jade": "~1.9.2",
+    "trendy": "git+ssh://git@git.xpydev.org:jwrb/trendy#development",
+    "virtual-dom": "~2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:evanlucas/paycoin-electron"
+  },
+  "keywords": [
+    "paycoin",
+    "xpy"
+  ],
+  "author": "Evan Lucas <evanlucas@me.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evanlucas/paycoin-electron/issues"
+  },
+  "homepage": "https://github.com/evanlucas/paycoin-electron"
+}

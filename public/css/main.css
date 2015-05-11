@@ -1,0 +1,916 @@
+/* Fonts. */
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 300;
+    src: url("../fonts/OpenSans-Light.ttf");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 400;
+    src: url("../fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-weight: 700;
+    src: url("../fonts/OpenSans-Bold.ttf");
+}
+html {
+    font-size: 1em;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+body {
+    font-family: "Open Sans", sans-serif;
+    -webkit-user-select: none;
+    cursor: default;
+}
+a {
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.4);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,0.2);
+}
+input[type="text"],
+input[type="number"],
+input[type="password"] {
+    border: 0;
+    padding: 0 10px;
+    outline: 0;
+    border-radius: 2px;
+    transition: all 0.2s ease-in-out;
+}
+a.button-send,
+a.button
+a.payment-button,
+a.button-export  {
+    padding: 0.2em 0.8em;
+    font-size: 1.5em;
+}
+a.button-send i {
+    position: relative;
+    right: 0.2em;
+}
+.wrapper {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+
+/* Loading Panel. */
+.loading-panel {
+    width: 100%;
+    height: 100%;
+}
+.loading-panel .loading-text {
+    text-align: center;
+}
+.loading-panel .loading-spinner {
+    position: absolute;
+    top: 45%;
+    left: 46%;
+    width: 7%;
+    height: 7%;
+    fill: rgba(255, 255, 255, 1);
+}
+/* End Loading Panel */
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.empty-state-content {
+    line-height: 0.8em;
+    text-align: center;
+    color: inherit;
+}
+.empty-state-content i {
+    font-size: 4em;
+}
+.empty-state-content p {
+    opacity: 0.5;
+}
+.empty-state-content a {
+    position: relative;
+    top: 0.6em;
+}
+/* End Empty State*/
+
+/* Random mix-ins. */
+.selectable {
+    -webkit-user-select: text;
+    cursor: text;
+}
+.blurred {
+    /*-webkit-filter: blur(.8px);*/
+    -webkit-transform: scale(0.93);
+    box-shadow: 0 0 0px 35px rgba(4, 3, 24, 0.6),
+    0 0 20px #000;
+}
+.hide {
+    display: none !important;
+}
+.padding {
+    padding: 0 0.5em;
+}
+.draggable {
+    -webkit-app-region: drag;
+}
+
+.tabby {
+    -webkit-app-region: no-drag !important;
+}
+/* End Random mix-ins */
+
+h1.tab-title {
+    font-size: 1.3em;
+    font-weight: 700;
+}
+h2.tab-description {
+    font-size: 1em;
+    font-weight: 300;
+}
+/* Navigation Menu */
+nav.tab-panel {
+    overflow: hidden;
+    -webkit-app-region: drag;
+}
+nav.tab-panel ul {
+    padding: 0;
+    margin: 0;
+}
+nav.tab-panel ul li {
+    display: inline;
+}
+nav.tab-panel span {
+    display: block;
+}
+nav.tab-panel i {
+    display: none;
+}
+nav.tab-panel a {
+    float: left;
+    padding: 1.2em 1.5em;
+    color: rgb(255, 255, 255);
+    font-size: 0.9em;
+    -webkit-app-region: no-drag;
+    -webkit-transition: background-color 0.2s ease-in-out;
+}
+/* End Navigation Menu */
+/* Title Bar */
+.title-bar {
+    background: transparent;
+}
+.title-bar .title-bar-buttons {
+    position: absolute;
+    right: 0.7em;
+    top: 1em;
+}
+.title-bar .title-bar-buttons a {
+    color: rgba(63, 68, 83, 1);
+    margin-right: 0.2em;
+    font-size: 1em;
+    -webkit-app-region: no-drag;
+    -webkit-transition: opacity 0.2s ease-in-out;
+}
+.title-bar .title-bar-buttons a:hover {
+    cursor: pointer;
+}
+.title-bar span.tooltip {
+    position: absolute;
+    right: 0.35em;
+    width: 100px;
+    top: 3em;
+    color: #ccc;
+    font-size: 0.8em;
+    text-align: center;
+    padding: 3px;
+    border-radius: 2px;
+    display: inline;
+    opacity: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.title-bar span.tooltip:after {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(80, 80, 80, 0);
+    border-bottom-color: rgba(63, 68, 83, 1);
+    border-width: 6px;
+    margin-left: -6px;
+}
+.title-bar-buttons span.second {
+    right: 2.2em;
+}
+.title-bar span.third {
+    right: 3.9em;
+}
+.title-bar span.fourth {
+    right: 5.7em;
+}
+.title-bar span.fifth {
+    right: 7.7em;
+}
+.title-bar-buttons a:hover > span.tooltip {
+    opacity: 1;
+}
+/* End Title Bar */
+
+/* General Panel Style */
+.tab-transaction-content,
+.tab-address-book-content,
+.tab-settings-panel,
+.ions-panel  {
+    overflow-y: scroll;
+    height: 568px;
+    padding: 0 10px;
+}
+.tab-text {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 1.5em;
+}
+/* End General Panel Style */
+
+/* Payment Panel */
+.payment-panel {
+
+}
+.payment-panel .available-balance {
+    text-align: center;
+}
+.payment-panel .available-balance span {
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+    font-weight: 700;
+}
+.payment-panel .available-balance span > span {
+    border: 0;
+}
+form.large {
+    width: 450px;
+    margin: 0 auto;
+}
+form.large .label {
+    font-weight: 700;
+    margin: 10px 0;
+    font-size: 1em;
+    text-transform: uppercase;
+    position: relative;
+    top: 2.8em;
+    left: 1em;
+    transition: all 0.3s ease-in-out;
+}
+form.large .active {
+    top: 0;
+}
+form.large .label {
+    font-weight: 700;
+    text-transform: none;
+    display: inline;
+}
+form.large input {
+    height: 45px;
+    width: 450px;
+    font-size: 1.3em;
+    margin: 0.6em 0;
+    box-sizing: border-box;
+}
+form.large .name-check {
+    position: absolute;
+    right: 18%;
+    top: 49%;
+}
+.payment-button {
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    margin-top: 0.5em;
+    padding: 0.5em 0.8em;
+    width: 50%;
+    box-sizing: border-box;
+}
+form.large a i {
+    position: relative;
+    right: 0.1em;
+    top: 0.1em;
+}
+.payment-panel ul.suggestion-box {
+    width: 64%;
+    border: 0;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.payment-panel ul.suggestion-box li {
+    list-style: none;
+}
+.payment-panel ul.suggestion-box li a {
+    display: block;
+    padding: 0.5em;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.payment-panel ul.suggestion-box .suggestion-address {
+    font-size: 0.9em;
+    font-weight: 300;
+    opacity: 0.7;
+}
+.payment-panel ul.suggestion-box i.icon-right-circled {
+    float: right;
+    font-size: 1.5em;
+    margin: 0.5em;
+    color: rgba(255, 255, 255, 0.3);
+}
+/* End Payment Panel */
+
+/* Balance Panel. */
+.balance-panel {
+    color: #fff;
+    text-align: center;
+    position: relative;
+    top: 10%;
+    line-height: 5em;
+}
+.balance-panel span.spendable-label {
+    text-transform: uppercase;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+.balance-panel .spendable {
+    font-size: 6em;
+    font-weight: 400;
+    border-radius: 2px;
+    padding: 0 0.2em;
+    line-height: 1.5em;
+}
+.spendable-decimal {
+    font-size: 80%;
+}
+.balance-panel .non-spendable {
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+.balance-panel .non-spendable #data-unconfirmed-balance {
+    -webkit-user-select: text;
+    cursor: text;
+}
+.balance-panel .non-spendable .label {
+    font-weight: 300;
+}
+.balance-panel .alert {
+    position: absolute;
+    right: 5%;
+    top: 8%;
+    line-height: 0.9em;
+}
+.balance-panel .alert a {
+    padding: 0.45em 0.5em 0.2em 0.6em;
+    border-radius: 20px;
+}
+.balance-panel .alert a span {
+    position: absolute;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 0.8em;
+    background-color: rgb(255, 0, 0);
+    border-radius: 20px;
+    padding: 0.1em 0.4em;
+    line-height: 1.2em;
+}
+.sync {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    height: auto;
+}
+.status {
+    font-size: 0.8em;
+    position: absolute;
+    right: 1em;
+    bottom: 0.5em;
+}
+/* End Balance Panel. */
+
+/* Transaction Panel. */
+nav.list-controls {
+    float: right;
+    margin-right: 2px;
+}
+nav.list-controls ul {
+    padding: 0;
+}
+nav.list-controls ul li {
+    display: inline-block;
+    padding: 0;
+}
+nav.list-controls li a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: 700;
+    display: block;
+    padding: 0.6em 0.8em;
+    margin-left: -4px;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.transaction-container {
+    padding: 15px 0 0 0;
+}
+.transaction-container,
+.address-book-container {
+    font-size: 1.3em;
+    margin-top: 1em !important;
+    line-height: 2em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+}
+.transaction-amount {
+    font-size: 1.5em;
+    font-weight: 300;
+    margin: 0 10px;
+}
+.transaction-address {
+    font-size: 1.1em;
+    font-weight: 300;
+    margin-top: 0.7em;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0 7px;
+    margin: 10px;
+}
+.transaction-date, .transaction-confirmation {
+    font-size: 0.8em;
+    font-weight: 300;
+    opacity: 0.5;
+    margin: 0 10px;
+}
+.transaction-confirmation {
+    float: right;
+}
+.tab-transaction-content .sent .transaction-amount,
+.tab-transaction-content .received .transaction-amount {
+    display: inline;
+    font-weight: 700;
+    color: #CE4141;
+    padding: 5px 7px;
+    border-radius: 2px;
+}
+.transaction-container i {
+    font-size: 1em;
+    opacity: 0.5;
+    position: relative;
+    top: 0.1em;
+}
+.transaction-id {
+    font-size: 0.6em;
+    line-height: 1em;
+    padding: 0.3em 0;
+    text-align: center;
+}
+/* End Transaction Panel */
+
+/* Address Book Panel */
+.tab-header {
+    overflow: hidden;
+}
+.tab-address-book-content .tab-text {
+    text-align: left !important;
+}
+.tab-address-book-content .address-book-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-top: 0 !important;
+    margin: 0.5em 0;
+    border-radius: 3px;
+}
+.address-book-name {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+    font-size: 1.3em;
+    padding: 0 0.3em;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.address-book-address {
+    padding: 3px 10px;
+    font-weight: 300;
+    border-radius: 5px;
+}
+.address-book-balance {
+    background-color: rgba(255, 255, 255, 0.2);
+    display: inline;
+    padding: 0.2em 0.7em;
+    margin: 0 0.7em;
+    font-size: 0.7em;
+    border-radius: 5px;
+}
+.address-book-balance > i {
+    position: relative;
+    top: 1.5px;
+    right: 1.5px;
+}
+.address-book-container .button-controls,
+.ions-table .ions-status {
+    float: right;
+    font-size: 0.7em;
+    opacity: 0;
+    margin-top: 0.2em;
+    margin-right: 0.3em;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.address-book-container:hover > .button-controls,
+.address-book-container:hover > .ions-status {
+    opacity: 1;
+    right: 0;
+}
+.address-book-container .button-controls a {
+    margin: 0 0.2em;
+    opacity: 0.5;
+    -webkit-transition: opacity 0.2s ease-in-out;
+}
+.address-book-container .button-controls a:hover {
+    opacity: 0.9;
+}
+.tab-address-book-content hr {
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 1px;
+    border: 0;
+    margin: 1.7em 0;
+}
+.tab-address-book-content .address-book-search {
+    display: none;
+    margin-top: 1em;
+    margin-bottom: 2.2em;
+}
+.tab-address-book-content .address-book-search input {
+    background: rgba(255, 255, 255, 0.1);
+    width: 70%;
+    border: 0;
+    padding: 0.6em;
+}
+.tab-address-book-content .address-book-search input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+.address-book-container a.button-ions {
+    font-size: 0.7em;
+}
+.address-book-container a.ions-on {
+    color: rgb(107, 215, 244);
+}
+.address-book-container a.ions-off {
+    color: rgb(193, 193, 193);
+}
+/* End Address Book Panel */
+
+/* IONs Panel */
+.ions-panel:before {
+    content: "y";
+    font-family: 'icon-font';
+    font-size: 23em;
+    position: absolute;
+    top: 0;
+    left: -0.34em;
+    color: rgba(255, 255, 255, 0.1);
+    z-index: -1;
+}
+nav.ions-select {
+
+}
+nav.ions-select ul {
+    padding: 0;
+    position: relative;
+}
+nav.ions-select a {
+    display: block;
+    color: inherit;
+    width: 450px;
+    height: 45px;
+    padding: 0.6em;
+    font-weight: 700;
+    box-sizing: border-box;
+}
+nav.ions-select a i {
+    float: right;
+}
+nav.ions-select ul.ions-select-name {
+    position: absolute;
+    margin: 0;
+    z-index: 30;
+    width: 100%;
+    box-sizing: border-box;
+}
+nav.ions-select ul.ions-select-name a {
+    font-weight: 400;
+}
+.ions-name {
+    margin: 0 auto;
+    display: flex;
+    padding: 1.1em 1em !important;
+    margin-top: 2em;
+    width: 388px;
+    box-sizing: border-box;
+}
+.ions-control {
+    text-align: center;
+    margin: 1.7em 0;
+}
+.ions-control a {
+    padding: 0.4em 1em;
+    font-weight: 700;
+}
+.ions-control a i {
+    position: relative;
+    top: 2px;
+    right: 2px;
+}
+.ions-table > .address-book-container {
+    padding: 0 10px;
+    overflow: hidden;
+    margin-top: 0 !important;
+}
+.ions-status {
+    position: relative;
+    right: -3.8em;
+    opacity: 1 !important;
+    line-height: 1.2em;
+    margin: 0.8em 0 !important;
+}
+.ions-status span {
+    padding: 0 0.3em;
+}
+.ions-status i {
+    position: relative;
+    top: 2px;
+}
+.ions-pending {
+    right: -4.9em;
+}
+.ions-inactive {
+    right: -4.7em;
+    opacity: 0.2 !important;
+}
+/* End IONs Panel */
+
+/* Settings Panel */
+.settings-panel {
+    padding: 0 10px 10px 20px;
+    overflow-y: scroll;
+    height: 568px;
+}
+.settings-panel h2 {
+    font-weight: 300;
+    border-bottom: 1px solid rgba(255,255,255,0.20);
+}
+.settings-panel .label {
+    position: relative;
+    top: 2.2em;
+    left: 0.7em;
+    z-index: -1;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+}
+.settings-panel input[type="checkbox"] .checkbox-label {
+    margin: 10px !important;
+}
+.settings-panel input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    display: inline;
+    padding: 10px;
+}
+.settings-panel .checkbox-label {
+    display: block;
+    padding-bottom: 5px;
+}
+.settings-panel .checkbox-label span {
+    position: relative;
+    bottom: 3px;
+    left: 10px;
+}
+.settings-panel .settings-themes a {
+    display: inline;
+    width: 195px;
+    margin: 0.1em 0.5em;
+    position: relative;
+}
+.settings-panel .settings-themes span {
+    background-color: rgba(24, 173, 144, 0.9);
+    position: absolute;
+    bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 195px;
+    height: 150px;
+    font-weight: 700;
+    z-index: 2;
+    opacity: 0;
+    -webkit-transition: opacity 0.2s ease-in-out;
+}
+.settings-panel .settings-themes a:hover > span {
+    opacity: 1;
+}
+.settings-panel .button-export {
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 700;
+    position: relative;
+    top: 0;
+}
+.settings-panel input {
+    height: 45px;
+}
+.settings-panel input[type="number"] {
+    width: 250px;
+}
+.settings-panel input[type="password"] {
+    width: 140px;
+}
+/* End Settings Panel */
+
+/* The Modal Pop-up. */
+.modal-popup-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 650px;
+    height: 500px;
+    background-color: black;
+    opacity: 0.3;
+}
+.modal-popup {
+    background-image: -webkit-gradient( linear, left top, left bottom,
+    color-stop(0, rgb(236, 236, 236)),
+    color-stop(1, rgb(191, 191, 191)) );
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 24%;
+    padding: 15px 25px;
+    width: 300px;
+    color: #555;
+    border-radius: 2px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.15s ease-in-out;
+    overflow-wrap: break-word;
+}
+.modal-popup p {
+    text-align: center;
+    font-size: 1em;
+    font-weight: 300;
+    margin: 0.6em 0;
+}
+span.modal-title {
+    color: #222;
+    display: inherit;
+    text-align: center;
+    font-weight: 700;
+}
+.modal-popup label {
+    display: block;
+    margin-bottom: 7px;
+}
+.modal-popup input {
+    background: #fff !important;
+    width: 100%;
+    margin: 0.5em 0;
+    padding: 0.5em !important;
+    box-sizing: border-box;
+    border-radius: 2px !important;
+    border: 1px solid #B1B1B1 !important;
+    box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.69),
+                inset 0px 1px 1px rgba(0, 0, 0, 0.21);
+    color: #666 !important;
+}
+.modal-popup input:focus {
+    box-shadow: inset 0 1px 7px rgba(0, 0, 0, 0.4),
+                0 1px 1px rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.4);
+}
+.modal-popup .buttons {
+    margin-top: 10px;
+}
+.modal-popup .buttons {
+    padding-top: 0.5em;
+    display: flex;
+    width: 40%;
+    margin: auto;
+}
+.modal-popup a.button {
+    background-color: #1fd27c;
+    color: #fff;
+    padding: 0 0.25em;
+    font-size: 1.6em;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+.modal-popup a.button i {
+    position: relative;
+    top: 2px;
+}
+.modal-popup a.button:hover {
+    box-shadow: inset 0 2px 50px rgba(0, 0, 0, 0.4);
+}
+.modal-popup a.button-ok {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.modal-popup a.button-cancel {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.modal-popup a.button-single {
+    margin: 0 auto;
+    border-radius: 20px;
+}
+.modal-popup .exchange {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(187, 187, 187);
+    margin: 0.5em 0;
+    border-radius: 2px;
+}
+.modal-popup .exchange-rate {
+    padding: 0.5em 0;
+    border-bottom: 1px solid rgb(187, 187, 187);
+}
+.modal-popup .exchange-site {
+    /*background-color: rgb(204, 204, 204); */
+    display: inline;
+    padding: 0.5em;
+    font-weight: 700;
+}
+.modal-popup .exchange-price {
+    display: inline;
+    float: right;
+    margin: 0 0.5em;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+.modal-popup .down {
+    color: rgb(206, 65, 65);
+}
+.modal-popup .up {
+    color: rgb(88, 154, 91);
+}
+.modal-popup .exchange-currency {
+    color: rgba(0, 0, 0, 0.5);
+}
+.modal-popup .exchange-price a {
+    background-color: rgb(31,210,124);
+    color: rgb(255, 255, 255);
+    font-size: 0.9em;
+    border-radius: 20px;
+    padding: 0 0.5em;
+    margin-left: 0.3em;
+    margin-top: 0.15em;
+    position: absolute;
+    top: 0;
+    right: -3em;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+.modal-popup .exchange-price a:hover {
+    background-color: rgba(31,210,124, 0.7);
+}
+.modal-popup .exchange-rate:hover > .exchange-price {
+    margin-right: 3em;
+    transition: all 0.2s ease-in-out;
+}
+.modal-popup .exchange-rate:hover > .exchange-price a {
+    opacity: 1;
+}
+
+/* End The Modal Popup */

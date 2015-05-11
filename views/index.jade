@@ -1,0 +1,151 @@
+extends ./layouts/default
+
+block main
+  +loadingScreen()
+  .tab-content
+    // Main View
+    .tab-pane.active.js-tab-balance-content.tabby#overview
+      .wrapper
+        h3 Available Funds:
+        h1.selectable.js-balance
+          i.fa.fa-spinner.fa-spin
+        .non-spendable
+          h4 Unconfirmed:
+          span.selectable.js-unconfirmed-balance
+            i.fa.fa-spinner.fa-spin
+          h4 Staking:
+          span.selectable.js-stake-amount
+            i.fa.fa-spinner.fa-spin
+
+        
+        .payment-panel.js-payment-panel.hide
+          .tab-text
+            h3.text-primary Send PayCoins
+            h4.text-primary Send PayCoins to anyone around the world, instantly.
+          .available-balance
+            | Balance: 
+            h4.js-balance-no-resize.selectable 1265.1009
+          form.large
+            .label
+              label(for='payee') Pay To
+            input#payee.js-payee(type='text', name='payee')
+            ul.suggestion-box.js-suggestions
+              li.js-suggestion-prototype.hide
+                i.icon-right-circled
+                a
+                  span.js-label
+                  .suggestion-address.js-address
+            .label
+              label(for='js-amount') Amount
+            input#js-amount(type='number', name='amount', step='0.00000001')
+            a.payment-button
+              i.icon-paperplane
+              |  Send XPY
+          div
+            span.spendable-label Total XPY Available
+          span.spendable.selectable.js-balance 0
+          
+          a.button-send.js-payment-panel-toggle
+            i.icon-paperplane
+            | Send
+    // Transaction Listing
+    .tab-pane.js-tab-transaction-content.tabby#history
+      ul.nav.nav-tabs
+        li
+          a.js-show-sent-button Sent
+        li
+          a.js-show-received-button Received
+        li
+          a.js-show-all-button.active All
+      #transaction_table
+      table.table.js-transactions
+    // Staking
+
+    // Address Book
+    .tab-pane.js-tab-address-book-content.tabby#send
+      .js-not-empty.hide
+        .tab-header
+          nav.list-controls
+            ul
+              li
+                a.js-search-button Search
+              li
+                a.js-add-address
+                  i.icon-plus
+          .address-book-search.js-address-search
+            input(type='text', name='address-search', placeholder='Search Addresses')
+          .tab-text.js-address-intro
+            h1.tab-title Address Book
+            h2.tab-description Add, remove and visualize all your addresses.
+        .js-my-addresses
+        hr
+        .js-other-addresses
+        .address-book-container.js-address-prototype.hide
+          .button-controls
+            a.js-edit
+              i.icon-edit-modify-streamline
+            a.js-delete
+              i.icon-delete-garbage-streamline
+          .address-book-name.selectable.js-address-name
+          .address-book-address.selectable.js-address
+          .address-book-balance.js-balance-container.hide
+            i.icon-iocoin
+            span.js-address-balance.selectable 0
+      .empty-state.js-empty.hide
+        .empty-state-content
+          i.icon-notebook-streamline
+          h2 No Addresses
+          p You haven't added or created any addresses yet.
+          a.button-send.js-add-address Add One
+    // Settings
+    .tab-pane.js-settings-panel.tabby#settings
+      h2 Transactions
+      p
+        | Optional transaction fee per XPY that helps make sure that your transactions are processed quickly. A fee of 0.001 is recommended.
+      input(type='number', name='fee', min='0', step='0.001', placeholder='0.000')
+      h2 Wallet Behavior
+      label.checkbox-label.js-minimize-to-tray-label
+        input(type='checkbox', name='minimizeToTray', value='on')
+        span Minimize to the tray instead of the taskbar
+      label.checkbox-label
+        input(type='checkbox', name='minimizeOnClose', value='on')
+        span Minimize on close
+      h2 Change Passphrase
+
+      input.js-old-password(type='password', placeholder='Old Passphrase')
+      input.js-new-password(type='password', placeholder='New Passphrase')
+      input.js-confirm-password(type='password', placeholder='Confirm')
+      a.btn.btn-default.js-change-password Change
+      h2 Import/Export
+      p Import addresses from the Qt wallet or save a copy of your wallet.dat.
+      a.button-export.js-import Import Addresses
+      a.button-export.js-export Back-up Wallet
+      a.button-export.js-show-data Show Data Folder
+      h2 Version
+      p
+        | HTML5 wallet version: 
+        strong 1.0.0
+        hr
+        | Daemon version: 
+        strong.js-daemon-version Unknown
+
+  // Sync Progress
+  .sync.js-sync.hide.tabby
+    .progress
+      .progress-bar.progress-bar-success.progress-bar-striped.active.js-progress(aria-valuemax='100', aria-valuenow='50', aria-valuemin='0')
+    h4.js-caption Syncing wallet (3490 / 9123 blocks)
+  .status.js-status.hide.tabby
+  
+  script(type='text/javascript', src='../public/js/vendor/jquery-2.0.2.min.js')
+  script(type='text/javascript', src='../public/js/bootstrap.min.js')
+  script.
+    $('[data-toggle="tooltip"]').tooltip()
+  script.
+    if (typeof require !== 'function') {
+      // If we are in a web env
+      var script = document.createElement('script')
+      script.src = 'bundle.js'
+      document.currentScript.parentNode.insertBefore(script, document.currentScript)
+    } else {
+      require('../desktop')()
+    }
