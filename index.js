@@ -16,9 +16,12 @@ var mainWindow
 
 function setup() {
   mainWindow = new BrowserWindow({
-    width: 900
-  , height: 600
-  , title: name
+    'width': 960
+  , 'height': 650
+  , 'min-height': 650
+  , 'min-width': 960
+  , 'center': true
+  , 'title': name
   })
 
   mainWindow.loadUrl(index)
