@@ -6,6 +6,7 @@
   "dependencies": {
     "bitcoin": "~2.3.0",
     "crypto-dir": "~1.0.1",
+    "delegate-dom": "0.0.1",
     "electron-prebuilt": "~0.25.3-2",
     "inherits": "~2.0.1",
     "jade": "~1.9.2",
