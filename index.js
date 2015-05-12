@@ -6,6 +6,11 @@ var index = 'file://' + path.join(__dirname, 'views', 'index.html')
 
 var app = require('app')
 app.on('ready', setup)
+app.on('window-all-closed', function() {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
 
 var mainWindow
 
