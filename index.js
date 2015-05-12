@@ -29,4 +29,8 @@ function setup() {
   mainWindow.on('closed', function() {
     mainWindow = null
   })
+
+  mainWindow.on('page-title-updated', function(e) {
+    e.preventDefault()
+  })
 }
