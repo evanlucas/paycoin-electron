@@ -18,7 +18,7 @@ function setup() {
 
   mainWindow.loadUrl(index)
 
-  mainWindow.on('close', function() {
+  mainWindow.on('closed', function() {
     mainWindow = null
   })
 }
