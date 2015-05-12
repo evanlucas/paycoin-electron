@@ -1,8 +1,17 @@
 var BrowserWindow = require('browser-window')
   , path = require('path')
+  , nopt = require('nopt')
+  , knownOpts = { config: path }
+  , shortHand = { c: ['--config'] }
+  , parsed = nopt(knownOpts, shortHand)
+  , config = require('./lib/config')
 
 var name = 'Paycoin'
 var index = 'file://' + path.join(__dirname, 'views', 'index.html')
+
+if (parsed.config) {
+  config.filepath = parsed.config
+}
 
 var app = require('app')
 app.on('ready', setup)
