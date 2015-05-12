@@ -6,7 +6,7 @@ mixin loadingScreen()
       animatetransform(attributename='transform', type='rotate', from='0 16 16', to='360 16 16', dur='.8s', repeatcount='indefinite')
 
 mixin slimBar()
-  .menu-bar.w-full.bg-primary
+  .menu-bar.w-full.bg-primary.sync-status
     .row
       .col-xs-8
         .row
@@ -14,7 +14,7 @@ mixin slimBar()
             .progress.bg-primary.dk.m-xs.rounded(style='height: 12px;')
               .progress-bar.bg-primary.dker(role='progressbar', aria-valuenow='40', aria-valuemin='0', aria-valuemax='100', style='width: 80%;')
           .col-xs-4
-            .text-info x / x Blocks
+            .text-info.block-height x / x Blocks
       .col-xs-4
         .pull-right
           +appInfo().w-xs.m-r-md

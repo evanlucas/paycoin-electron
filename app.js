@@ -30,6 +30,7 @@ function App(el, currentWindow) {
   if (!(this instanceof App))
     return new App(el)
 
+  this.el = el
   var self = this
   self._notifications = 0
   self.currentWindow = currentWindow
@@ -70,6 +71,7 @@ function App(el, currentWindow) {
   , staking: []
   , settings: {}
   , sendResults: ''
+  , bestPeerHeight: 0
   }
 
   self.connect()
@@ -156,6 +158,7 @@ function App(el, currentWindow) {
   })
 
   self.on('getinfo', function() {
+    self.checkBlockHeight()
     render()
   })
 
@@ -319,5 +322,31 @@ App.prototype.populateInfo = function populateInfo(info) {
 App.prototype.alert = function(title, msg) {
   new Notification(title, {
     body: msg
+  })
+}
+
+App.prototype.checkBlockHeight = function checkBlockHeight() {
+  var self = this
+  self.client.getBlockInfo(function(err, bestHeight) {
+    if (err) {
+      console.log('error checking sync state: ' + err.message)
+      return self.alert('Error checking sync state')
+    }
+
+    var ele = $(self.ele).find('.sync-status')
+    self.data.bestPeerHeight = bestHeight
+    var blocks = self.data.info.blocks
+    var bar = $(ele).find('.progress-bar')
+    if (blocks < bestHeight) {
+      var percentage = blocks / bestHeight
+      $('.progress-bar').width(percentage + '%')
+    } else {
+      $('.progress-bar').width('100%')
+    }
+    bestHeight = bestHeight < blocks
+      ? blocks
+      : bestHeight
+    var e = $('.block-height')
+    e.text(`${blocks} / ${bestHeight} Blocks`)
   })
 }
