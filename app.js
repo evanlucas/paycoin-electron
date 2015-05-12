@@ -8,7 +8,17 @@ var EE = require('events').EventEmitter
   , Menu = remote.require('menu')
   , MenuItem = remote.require('menu-item')
   , BrowserWindow = remote.require('browser-window')
+  , config = require('./lib/config')
+  , createElement = require('virtual-dom/create-element')
+  , diff = require('virtual-dom/diff')
+  , h = require('virtual-dom/h')
+  , patch = require('virtual-dom/patch')
+  , delegate = require('delegate-dom')
 
+// Views
+
+var Wallet = require('./lib/elements/wallet')
+  , Overview = require('./lib/elements/overview')
 
 inherits(App, EE)
 
@@ -17,20 +27,99 @@ function App(el, currentWindow) {
     return new App(el)
 
   var self = this
-
+  self._notifications = 0
   self.currentWindow = currentWindow
+
   if (localStorage.paycoin) {
     delete localStorage.paycoin
   }
-  if (!localStorage.paycoin) {
-    this.getconfig()
-  } else {
-    self.connect(localStorage.paycoin)
+
+  delegate.on(el, 'a', 'click', function(e) {
+    var href = e.target.getAttribute('href')
+    console.log('a clicked ' + href)
+    self.emit('nav-' + href.replace(/#/, ''), href)
+  })
+
+  self.data = {
+    info: {
+      connections: 0
+    , blocks: 0
+    , version: 0
+    , protocolversion: 0
+    , walletversion: 0
+    , balance: 0
+    , newmint: 0
+    , stake: 0
+    , moneysupply: 0
+    , difficulty: 0
+    , testnet: false
+    , paytxfee: 0
+    }
+  , transactions: []
+  , accounts: []
   }
+
+  self.connect()
 
   this.infoTimeout = null
 
   this.setupMenu()
+
+  self.views = {
+    wallet: new Wallet(self)
+  , overview: new Overview(self)
+  }
+
+  self.activeNav = '#overview'
+
+  var tree, rootNode
+
+  self.on('connect', function() {
+    tree = self.render()
+    rootNode = createElement(tree)
+    el.querySelector('.app').appendChild(rootNode)
+  })
+
+  function render() {
+    var newTree = self.render()
+    var patches = diff(tree, newTree)
+    rootNode = patch(rootNode, patches)
+    tree = newTree
+  }
+
+  self.on('render', render)
+
+  self.on('nav-overview', function(href) {
+    self.activeNav = href
+    self.getInfo(function(err) {
+      render()
+    })
+  })
+
+  self.on('nav-receive', function(href) {
+    self.activeNav = href
+    // fetch wallet
+    self.getWallet(function(err) {
+      render()
+    })
+  })
+}
+
+App.prototype.render = function render() {
+  var self = this
+  var views = self.views
+  var data = self.data
+  var out
+  var n = self.activeNav
+  if (n === '#overview') {
+    return wrap(views.overview.render(data.info))
+  } else if (n === '#receive') {
+    return wrap(views.wallet.render(data.info, data.accounts))
+  }
+}
+
+function wrap(d) {
+  return h('.content', [d])
 }
 
 App.prototype.setupMenu = function setupMenu() {
@@ -65,27 +154,49 @@ App.prototype.isFocused = function isFocused() {
   return true
 }
 
-App.prototype.getconfig = function getconfig() {
-  var data = fs.readFileSync('/Users/i0rn/Library/Application Support/Paycoin/paycoin.conf', 'utf8')
-  var config = parseConfig(data)
-  localStorage.paycoin = config
-  this.connect(config)
-}
-
-App.prototype.connect = function connect(opts) {
+App.prototype.connect = function connect() {
   var self = this
-  this.client = new bitcoin(opts)
-  this.getInfo(function(err) {
-    if (err) throw err
-    self.loopInfo()
-  })
+  if (localStorage.paycoin) {
+    self.client = new bitcoin(localStorage.paycoin)
+    self.getInfo(function(err) {
+      if (err) throw err
+      self.emit('connect')
+      self.loopInfo()
+    })
+  } else {
+    config.read(function(err, conf) {
+      if (err) throw err
+      self.client = new bitcoin(conf)
+      self.getInfo(function(err) {
+        if (err) return self.error('getinfo', err)
+        self.emit('connect')
+        self.loopInfo()
+      })
+    })
+  }
 }
 
-App.prototype.getInfo = function(cb) {
+App.prototype.error = function error(cmd, err) {
+  if (err.code === 'ECONNREFUSED') {
+    // ask if daemon is running
+    console.log('Connection Refused. Is the daemon running?')
+  }
+}
+
+App.prototype.getInfo = function getInfo(cb) {
   var self = this
   this.client.getInfo(function(err, info) {
     if (err) return cb(err)
-    self.populateInfo(info)
+    self.data.info = info
+    cb && cb(null, info)
+  })
+}
+
+App.prototype.getWallet = function getWallet(cb) {
+  var self = this
+  this.client.getAccounts(function(err, wallets) {
+    if (err) return cb(err)
+    self.data.accounts = wallets
     cb && cb()
   })
 }
@@ -106,27 +217,7 @@ App.prototype.loopInfo = function loopInfo() {
 }
 
 App.prototype.populateInfo = function populateInfo(info) {
+  var self = this
   console.log(JSON.stringify(info))
-  this.info = info
-  var peers = info.connections
-  var bal = info.balance
-  var stake = +(info.stake || 0).toFixed(8)
-  $('.js-connected-peers').attr('data-original-title', peers + ' peers')
-  $('.js-balance').html(bal)
-  $('.js-stake-amount').html(stake)
-}
-
-function parseConfig(data) {
-  var out = data.split('\n').filter(function(item) {
-    return item[0] !== '#'
-  }).map(function(item) {
-    var splits = item.split('=')
-    return [splits[0], splits[1]]
-  })
-
-  if (!out.length) return {}
-  return out.reduce(function(set, item) {
-    set[item[0]] = item[1]
-    return set
-  }, {})
+  self.data.info = info
 }
