@@ -20,13 +20,13 @@ head
 
     //link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css')
 
-  .bg-light.h-full(style='padding-top:82px;')
+  .bg-light.h-full(style='padding-top:60px;padding-bottom:22px;')
     .pos-fix.w-full(style='z-index:9999;top:0;')
-      +menuBar()
       +appNav()
+    .pos-fix.w-full(style='z-index:9999;bottom:0;height:22px;')
+      +slimBar()
     .app.pos-rlt
       block main
-
 
   block foot
     // These are separate because the BG needs to be transparent but the content opaque.
