@@ -4,13 +4,12 @@ var BrowserWindow = require('browser-window')
   , knownOpts = { config: path }
   , shortHand = { c: ['--config'] }
   , parsed = nopt(knownOpts, shortHand)
-  , config = require('./lib/config')
 
 var name = 'Paycoin'
 var index = 'file://' + path.join(__dirname, 'views', 'index.html')
 
 if (parsed.config) {
-  config.filepath = parsed.config
+  process.env.XPY_CONFIG = parsed.config
 }
 
 var app = require('app')
