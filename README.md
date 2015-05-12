@@ -23,6 +23,7 @@ $ npm start
 
 MIT (See `LICENSE` for more info)
 
-## Author
+## Authors
 
-Evan Lucas
+- [Evan Lucas](https://github.com/evanlucas)
+- [Joshua Baldwin](https://github.com/jwrb)
