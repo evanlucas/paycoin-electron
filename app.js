@@ -142,7 +142,6 @@ App.prototype.render = function render() {
   var self = this
   var views = self.views
   var data = self.data
-  var out
   var n = self.activeNav
   if (n === '#overview') {
     return wrap(views.overview.render(data.info))
