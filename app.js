@@ -22,6 +22,7 @@ var Wallet = require('./lib/elements/wallet')
   , History = require('./lib/elements/history')
   , Send = require('./lib/elements/send')
   , Staking = require('./lib/elements/staking')
+  , Settings = require('./lib/elements/settings')
 
 inherits(App, EE)
 
@@ -67,6 +68,7 @@ function App(el, currentWindow) {
   , transactions: []
   , accounts: []
   , staking: []
+  , settings: {}
   }
 
   self.connect()
@@ -81,6 +83,7 @@ function App(el, currentWindow) {
   , history: new History(self)
   , send: new Send(self)
   , staking: new Staking(self)
+  , settings: new Settings(self)
   }
 
   self.activeNav = '#overview'
@@ -146,6 +149,11 @@ function App(el, currentWindow) {
     })
   })
 
+  self.on('nav-settings', function(href) {
+    self.activeNav = href
+    render()
+  })
+
   self.on('getinfo', function() {
     render()
   })
@@ -166,6 +174,8 @@ App.prototype.render = function render() {
     return wrap(views.send.render(data.info))
   } else if (n === '#staking') {
     return wrap(views.staking.render(data.staking))
+  } else if (n === '#settings') {
+    return wrap(views.settings.render(data.settings))
   }
 }
 
