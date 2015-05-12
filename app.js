@@ -103,6 +103,10 @@ function App(el, currentWindow) {
       render()
     })
   })
+
+  self.on('getinfo', function() {
+    render()
+  })
 }
 
 App.prototype.render = function render() {
@@ -211,6 +215,7 @@ App.prototype.loopInfo = function loopInfo() {
   this.infoTimeout = setTimeout(function() {
     self.getInfo(function(err) {
       if (err) throw err
+      self.emit('getinfo')
       self.loopInfo()
     })
   }, 1000 * 5)
