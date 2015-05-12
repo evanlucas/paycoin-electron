@@ -11,7 +11,6 @@
     "inherits": "~2.0.1",
     "jade": "~1.9.2",
     "mkdirp": "~0.5.0",
-    "trendy": "git+ssh://git@git.xpydev.org:jwrb/trendy#development",
     "virtual-dom": "~2.0.1"
   },
   "devDependencies": {},

@@ -18,3 +18,11 @@ $ npm start
   - Currently, every dom element has 67 classes...not good
 - Add reconnect logic
 - Remove jQuery and Bootstrap dependencies
+
+## License
+
+MIT (See `LICENSE` for more info)
+
+## Author
+
+Evan Lucas
