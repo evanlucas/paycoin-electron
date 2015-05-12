@@ -19,6 +19,7 @@ var EE = require('events').EventEmitter
 
 var Wallet = require('./lib/elements/wallet')
   , Overview = require('./lib/elements/overview')
+  , History = require('./lib/elements/history')
 
 inherits(App, EE)
 
@@ -68,6 +69,7 @@ function App(el, currentWindow) {
   self.views = {
     wallet: new Wallet(self)
   , overview: new Overview(self)
+  , history: new History(self)
   }
 
   self.activeNav = '#overview'
@@ -104,6 +106,21 @@ function App(el, currentWindow) {
     })
   })
 
+  self.on('nav-history', function(href) {
+    self.activeNav = href
+    self.client.getTransactions(function(err, txs) {
+      txs = txs.sort(function(a, b) {
+        return a.time < b.time
+          ? 1
+          : a.time > b.time
+          ? -1
+          : 0
+      })
+      self.data.transactions = txs
+      render()
+    })
+  })
+
   self.on('getinfo', function() {
     render()
   })
@@ -119,6 +136,8 @@ App.prototype.render = function render() {
     return wrap(views.overview.render(data.info))
   } else if (n === '#receive') {
     return wrap(views.wallet.render(data.info, data.accounts))
+  } else if (n === '#history') {
+    return wrap(views.history.render(data.transactions))
   }
 }
 
