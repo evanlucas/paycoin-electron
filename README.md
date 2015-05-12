@@ -13,7 +13,7 @@ $ npm start
 
 # TODO
 
-- Style Send page
+- Implement Sending coins
 - Cleanup classes/styles
   - Currently, every dom element has 67 classes...not good
 - Add reconnect logic
