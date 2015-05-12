@@ -36,9 +36,14 @@ function App(el, currentWindow) {
     delete localStorage.paycoin
   }
 
-  delegate.on(el, 'a', 'click', function(e) {
-    var href = e.target.getAttribute('href')
-    console.log('a clicked ' + href)
+  $(el).on('click', '#navigation a', function(e) {
+    var tag = e.target.tagName
+    var href
+    if (tag === 'A') {
+      href = e.target.getAttribute('href')
+    } else {
+      href = $(e.target).parent().attr('href')
+    }
     self.emit('nav-' + href.replace(/#/, ''), href)
   })
 
