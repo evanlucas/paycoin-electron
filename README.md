@@ -2,6 +2,15 @@
 
 Electron app for paycoin
 
+## Development
+
+```bash
+$ git clone <url>
+$ npm install
+$ npm run build
+$ npm start
+```
+
 # TODO
 
 - Style Send page
