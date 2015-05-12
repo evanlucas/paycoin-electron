@@ -55,6 +55,7 @@ function App(el, currentWindow) {
     , protocolversion: 0
     , walletversion: 0
     , balance: 0
+    , balanceUnconfirmed: 0
     , newmint: 0
     , stake: 0
     , moneysupply: 0
