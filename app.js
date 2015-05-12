@@ -146,7 +146,7 @@ App.prototype.render = function render() {
   } else if (n === '#history') {
     return wrap(views.history.render(data.transactions))
   } else if (n === '#send') {
-    return wrap(views.send.render())
+    return wrap(views.send.render(data.info))
   }
 }
 
