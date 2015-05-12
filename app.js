@@ -69,6 +69,7 @@ function App(el, currentWindow) {
   , accounts: []
   , staking: []
   , settings: {}
+  , sendResults: ''
   }
 
   self.connect()
@@ -157,6 +158,24 @@ function App(el, currentWindow) {
   self.on('getinfo', function() {
     render()
   })
+
+  self.on('sendfunds', function(data) {
+    self.client.sendFunds(data, function(err, out) {
+      if (err) {
+        // show error notification
+        self.alert('Error sending funds', err.message)
+        self.data.sendResults = err && err.message ? err : err
+      } else {
+        self.alert( 'Send Successful'
+                  , `Sent ${data.amount} to ${data.payee} (${out})`
+                  )
+        self.data.sendResults = 'success'
+      }
+      $('form.send input[type=text]').val('')
+      $('form.send button').removeAttr('disabled')
+      render()
+    })
+  })
 }
 
 App.prototype.render = function render() {
@@ -201,6 +220,17 @@ App.prototype.setupMenu = function setupMenu() {
         }
       ]
     }
+  , {
+      label: 'Edit'
+    , submenu: [
+        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' }
+      , { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' }
+      , { type: 'separator' }
+      , { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' }
+      , { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' }
+      , { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' }
+      ]
+    }
   ]
 
   this.menu = Menu.buildFromTemplate(template)
@@ -238,9 +268,11 @@ App.prototype.connect = function connect() {
 }
 
 App.prototype.error = function error(cmd, err) {
+  var self = this
   if (err.code === 'ECONNREFUSED') {
     // ask if daemon is running
     console.log('Connection Refused. Is the daemon running?')
+    self.alert('Error connecting to paycoind', 'Is the daemon running?')
   }
 }
 
@@ -282,4 +314,10 @@ App.prototype.populateInfo = function populateInfo(info) {
   var self = this
   console.log(JSON.stringify(info))
   self.data.info = info
+}
+
+App.prototype.alert = function(title, msg) {
+  new Notification(title, {
+    body: msg
+  })
 }
