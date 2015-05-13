@@ -14,7 +14,9 @@
     "nopt": "~3.0.1",
     "virtual-dom": "~2.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "asar": "~0.6.1"
+  },
   "scripts": {
     "build": "jade views/index.jade",
     "start": "electron .",
