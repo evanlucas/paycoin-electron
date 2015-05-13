@@ -40,6 +40,8 @@ function App(el, currentWindow) {
     delete localStorage.paycoin
   }
 
+  var nav = require('./lib/nav')(this)
+  nav.setup()
 
   var sels = '#navigation a, #navigation a span, #navigation a i'
   delegate.on(el, sels, 'click', function(e) {
@@ -50,7 +52,7 @@ function App(el, currentWindow) {
     } else {
       href = e.target.parentNode.getAttribute('href')
     }
-    self.emit('nav-' + href.replace(/#/, ''), href)
+    self.emit('nav', href)
   })
 
   self.data = {
@@ -110,55 +112,6 @@ function App(el, currentWindow) {
   }
 
   self.on('render', render)
-
-  self.on('nav-overview', function(href) {
-    self.activeNav = href
-    self.getInfo(function(err) {
-      render()
-    })
-  })
-
-  self.on('nav-receive', function(href) {
-    self.activeNav = href
-    // fetch wallet
-    self.getWallet(function(err) {
-      render()
-    })
-  })
-
-  self.on('nav-history', function(href) {
-    self.activeNav = href
-    self.client.getTransactions(function(err, txs) {
-      txs = txs.sort(function(a, b) {
-        return a.time < b.time
-          ? 1
-          : a.time > b.time
-          ? -1
-          : 0
-      })
-      self.data.transactions = txs
-      render()
-    })
-  })
-
-  self.on('nav-send', function(href) {
-    self.activeNav = href
-    render()
-  })
-
-  self.on('nav-staking', function(href) {
-    self.activeNav = href
-    self.client.getMinting(function(err, txs) {
-      if (err) throw err
-      self.data.staking = txs
-      render()
-    })
-  })
-
-  self.on('nav-settings', function(href) {
-    self.activeNav = href
-    render()
-  })
 
   self.on('getinfo', function() {
     self.checkBlockHeight()
