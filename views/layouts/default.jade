@@ -13,6 +13,16 @@ head
     link(rel='stylesheet', href='../public/css/trendy.css')
     link(rel='stylesheet', href='../public/css/animated.css')
     link(rel='stylesheet', href='../public/css/font-awesome.min.css')
+    style.
+      html {
+        overflow: hidden;
+      }
+      body {
+        padding: 0;
+        overflow: auto;
+        margin: 0;
+        -webkit-overflow-scrolling: touch;
+      }
 
   .bg-light.h-full(style='padding-top:60px;padding-bottom:22px;')
     .pos-fix.w-full(style='z-index:9999;top:0;')
@@ -23,38 +33,4 @@ head
       block main
 
   block foot
-    // These are separate because the BG needs to be transparent but the content opaque.
-    .modal.animated.zoomIn
-      span.modal-title Message
-      p Are you sure about that chief?
-      .buttons
-        a.button.button-ok
-          i.icon-check-mark
-        a.button.button-cancel
-          i.icon-remove
-        a.button.button-single
-          i.icon-check-mark
-    .js-exchange-data-prototype.hide
-      span.modal-title Exchange Rates
-      .exchange
-        .exchange-rate.js-bittrex
-          .exchange-site Bittrex
-          .exchange-price.js-exchange-rate-container
-            i.js-up-or-down-today
-            span.js-exchange-rate Loading
-            span.exchange-currency BTC
-            a.js-buy Buy
-        .exchange-rate.js-cryptsy
-          .exchange-site Cryptsy
-          .exchange-price.js-exchange-rate-container
-            i.js-up-or-down-today
-            span.js-exchange-rate Loading
-            span.exchange-currency BTC
-            a.js-buy Buy
-        .exchange-rate.js-ask-coin
-          .exchange-site AskCoin
-          .exchange-price.js-exchange-rate-container
-            i.js-up-or-down-today
-            span.js-exchange-rate Loading
-            span.exchange-currency BTC
-            a.js-buy Buy
+    // Space to put any needed modals
