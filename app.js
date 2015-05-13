@@ -92,8 +92,6 @@ function App(el, currentWindow) {
 
   this.infoTimeout = null
 
-  this.setupMenu()
-
   self.views = {
     wallet: new Wallet(self)
   , overview: new Overview(self)
@@ -170,41 +168,6 @@ App.prototype.render = function render() {
 
 function wrap(d) {
   return h('.content', [d])
-}
-
-App.prototype.setupMenu = function setupMenu() {
-  var template = [
-    {
-      label: 'Paycoin'
-    , submenu: [
-        {
-          label: 'About'
-        }
-      , { type: 'separator' }
-      , {
-          label: 'Toggle DevTools'
-        , accelerator: 'Alt+Command+I'
-        , click: function() {
-            BrowserWindow.getFocusedWindow().toggleDevTools()
-          }
-        }
-      ]
-    }
-  , {
-      label: 'Edit'
-    , submenu: [
-        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' }
-      , { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' }
-      , { type: 'separator' }
-      , { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' }
-      , { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' }
-      , { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' }
-      ]
-    }
-  ]
-
-  this.menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(this.menu)
 }
 
 App.prototype.isFocused = function isFocused() {
