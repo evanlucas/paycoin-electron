@@ -204,6 +204,9 @@ App.prototype.error = function error(cmd, err) {
     // ask if daemon is running
     console.log('Connection Refused. Is the daemon running?')
     self.alert('Error connecting to paycoind', 'Is the daemon running?')
+    setTimeout(function() {
+      self.connect()
+    }, 5000)
   }
 }
 
