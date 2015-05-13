@@ -112,6 +112,7 @@ function App(el, currentWindow) {
     rootNode = createElement(tree)
     el.querySelector('.app').appendChild(rootNode)
     self.activeNavNode = document.querySelector('#navigation .active')
+    self.checkBlockHeight()
   })
 
   function render() {
