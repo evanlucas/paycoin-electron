@@ -2,6 +2,10 @@
 
 Electron app for paycoin
 
+**WARNING: USE AT YOUR OWN RISK**
+
+This wallet has not been extensively tested.
+
 ## Development
 
 ```bash
