@@ -22,7 +22,7 @@ if (parsed.config) {
 
 var daemon = require('./lib/daemon')
 
-if (!parsed.daemon) {
+if (!parsed.daemon && process.platform === 'darwin') {
   daemon.start()
 }
 
