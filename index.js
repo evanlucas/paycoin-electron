@@ -9,6 +9,8 @@ var BrowserWindow = require('browser-window')
 
 var name = 'Paycoin'
 var index = 'file://' + path.join(__dirname, 'views', 'index.html')
+var splashUrl = 'file://' +
+  path.join(__dirname, 'lib', 'windows', 'loading.html')
 
 if (parsed.config) {
   process.env.XPY_CONFIG = parsed.config
@@ -22,27 +24,43 @@ app.on('window-all-closed', function() {
   }
 })
 
-var mainWindow
+var mainWindow, splash
 
 function setup() {
   setupMenu()
-  mainWindow = new BrowserWindow({
-    'width': 960
-  , 'height': 650
-  , 'min-height': 650
-  , 'min-width': 960
-  , 'center': true
-  , 'title': name
+  splash = new BrowserWindow({
+    width: 400
+  , height: 200
+  , resizable: false
+  , center: true
+  , type: 'splash'
+  , frame: false
   })
+  splash.loadUrl(splashUrl)
 
-  mainWindow.loadUrl(index)
+  setTimeout(function() {
+    splash.close()
+  }, 5000)
 
-  mainWindow.on('closed', function() {
-    mainWindow = null
-  })
+  splash.on('close', function() {
+    mainWindow = new BrowserWindow({
+      'width': 960
+    , 'height': 650
+    , 'min-height': 650
+    , 'min-width': 960
+    , 'center': true
+    , 'title': name
+    })
 
-  mainWindow.on('page-title-updated', function(e) {
-    e.preventDefault()
+    mainWindow.loadUrl(index)
+
+    mainWindow.on('closed', function() {
+      mainWindow = null
+    })
+
+    mainWindow.on('page-title-updated', function(e) {
+      e.preventDefault()
+    })
   })
 }
 

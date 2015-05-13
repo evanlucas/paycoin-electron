@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../../public/css/bootstrap.css">
+    <link rel="stylesheet" href="../../public/css/font-awesome.min.css">
+    <style>
+      body {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+      }
+
+      .middle {
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 80%;
+        margin-top: 100px;
+      }
+      .progress-bar {
+        animation: progress 5s 1 forwards;
+        -webkit-animation: progress 5s 1 forwards;
+      }
+
+      @keyframes progress {
+        from {}
+        to { width: 100% }
+      }
+
+      @-webkit-keyframes progress {
+        from {}
+        to { width: 100% }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="middle">
+      <p class="text-center">reticulating splines...</p>
+      <div class="progress bg-primary dk m-xs rounder" style="height: 20px;">
+        <div class="progress-bar bg-primary dker" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+  </body>
+</html>
