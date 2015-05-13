@@ -2,10 +2,6 @@ extends ./layouts/default
 
 block main
   +loadingScreen()
-  script(type='text/javascript', src='../public/js/vendor/jquery-2.0.2.min.js')
-  script(type='text/javascript', src='../public/js/bootstrap.min.js')
-  script.
-    $('[data-toggle="tooltip"]').tooltip()
   script.
     if (typeof require !== 'function') {
       // If we are in a web env

@@ -17,7 +17,6 @@ function Desktop() {
   if (!(this instanceof Desktop))
     return new Desktop()
 
-  console.log('Desktop env loaded')
   App.call(this, document.body, currentWindow)
   var self = this
 
