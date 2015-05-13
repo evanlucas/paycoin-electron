@@ -45,14 +45,23 @@ function App(el, currentWindow) {
 
   var sels = '#navigation a, #navigation a span, #navigation a i'
   delegate.on(el, sels, 'click', function(e) {
+    e.preventDefault()
     var tag = e.target.tagName
-    var href
+    var href, a
     if (tag === 'A') {
-      href = e.target.getAttribute('href')
+      a = e.target
+      href = a.getAttribute('href')
     } else {
-      href = e.target.parentNode.getAttribute('href')
+      a = e.target.parentNode
+      href = a.getAttribute('href')
     }
+    if (self.activeNav === href) return false
+    if (self.activeNavNode)
+      self.activeNavNode.classList.remove('active')
+    self.activeNavNode = a.parentNode
+    self.activeNavNode.classList.add('active')
     self.emit('nav', href)
+    return false
   })
 
   self.data = {
@@ -102,6 +111,7 @@ function App(el, currentWindow) {
     tree = self.render()
     rootNode = createElement(tree)
     el.querySelector('.app').appendChild(rootNode)
+    self.activeNavNode = document.querySelector('#navigation .active')
   })
 
   function render() {
