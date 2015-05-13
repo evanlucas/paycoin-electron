@@ -14,6 +14,7 @@ var EE = require('events').EventEmitter
   , h = require('virtual-dom/h')
   , patch = require('virtual-dom/patch')
   , delegate = require('delegate-dom')
+  , dom = require('./lib/dom')
 
 // Views
 
@@ -39,13 +40,15 @@ function App(el, currentWindow) {
     delete localStorage.paycoin
   }
 
-  $(el).on('click', '#navigation a', function(e) {
+
+  var sels = '#navigation a, #navigation a span, #navigation a i'
+  delegate.on(el, sels, 'click', function(e) {
     var tag = e.target.tagName
     var href
     if (tag === 'A') {
       href = e.target.getAttribute('href')
     } else {
-      href = $(e.target).parent().attr('href')
+      href = e.target.parentNode.getAttribute('href')
     }
     self.emit('nav-' + href.replace(/#/, ''), href)
   })
@@ -174,8 +177,8 @@ function App(el, currentWindow) {
                   )
         self.data.sendResults = 'success'
       }
-      $('form.send input[type=text]').val('')
-      $('form.send button').removeAttr('disabled')
+      dom.clearInputs('form.send input[type=text]')
+      document.querySelector('form.send button').disabled = false
       render()
     })
   })
@@ -315,7 +318,6 @@ App.prototype.loopInfo = function loopInfo() {
 
 App.prototype.populateInfo = function populateInfo(info) {
   var self = this
-  console.log(JSON.stringify(info))
   self.data.info = info
 }
 
@@ -333,20 +335,20 @@ App.prototype.checkBlockHeight = function checkBlockHeight() {
       return self.alert('Error checking sync state')
     }
 
-    var ele = $(self.ele).find('.sync-status')
+    var ele = document.querySelector('.sync-status')
     self.data.bestPeerHeight = bestHeight
     var blocks = self.data.info.blocks
-    var bar = $(ele).find('.progress-bar')
+    var bar = ele.querySelector('.progress-bar')
     if (blocks < bestHeight) {
       var percentage = blocks / bestHeight
-      $('.progress-bar').width(percentage + '%')
+      bar.style.width = percentage + '%'
     } else {
-      $('.progress-bar').width('100%')
+      bar.style.width = '100%'
     }
     bestHeight = bestHeight < blocks
       ? blocks
       : bestHeight
-    var e = $('.block-height')
-    e.text(`${blocks} / ${bestHeight} Blocks`)
+    var e = document.querySelector('.block-height')
+    e.textContent = `${blocks} / ${bestHeight} Blocks`
   })
 }
