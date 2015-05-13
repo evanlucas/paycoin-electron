@@ -41,7 +41,13 @@ app.on('window-all-closed', function() {
 var mainWindow, splash
 
 function setup() {
+  // TODO(evanlucas) Add custom protocol handler
+  // that will direct to the send page and pre-populate the fields
+
+  // setup the menu
   setupMenu()
+
+  // load the splash screen
   splash = new BrowserWindow({
     width: 400
   , height: 200
