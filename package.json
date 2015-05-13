@@ -4,6 +4,7 @@
   "description": "Paycoin wallet using electron",
   "main": "index.js",
   "dependencies": {
+    "argsplit": "~1.0.1",
     "bitcoin": "~2.3.0",
     "crypto-dir": "~1.0.1",
     "delegate-dom": "0.0.1",

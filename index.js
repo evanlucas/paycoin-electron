@@ -1,8 +1,12 @@
 var BrowserWindow = require('browser-window')
   , path = require('path')
   , nopt = require('nopt')
-  , knownOpts = { config: path }
-  , shortHand = { c: ['--config'] }
+  , knownOpts = { config: path
+                , 'no-daemon': Boolean
+                }
+  , shortHand = { c: ['--config']
+                , n: ['--no-daemon']
+                }
   , parsed = nopt(knownOpts, shortHand)
   , Menu = require('menu')
   , MenuItem = require('menu-item')
@@ -15,6 +19,16 @@ var splashUrl = 'file://' +
 if (parsed.config) {
   process.env.XPY_CONFIG = parsed.config
 }
+
+var daemon = require('./lib/daemon')
+
+if (!parsed.daemon) {
+  daemon.start()
+}
+
+process.on('exit', function() {
+  daemon.stop()
+})
 
 var app = require('app')
 app.on('ready', setup)
