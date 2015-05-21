@@ -41,7 +41,8 @@ function App(el, currentWindow) {
   var nav = require('./lib/nav')(this)
   nav.setup()
 
-  var sels = '#navigation a, #navigation a span, #navigation a i, #nav a, #nav a .inner, #nav a .inner i'
+  var sels = '#navigation a, #navigation a span, #navigation a i, ' +
+    '#nav a, #nav a .inner, #nav a .inner i'
   delegate.on(el, sels, 'click', function(e) {
     e.preventDefault()
     var tag = e.target.tagName
