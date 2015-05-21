@@ -6,6 +6,7 @@
   "dependencies": {
     "argsplit": "~1.0.1",
     "bitcoin": "~2.3.0",
+    "bows": "~1.4.2",
     "crypto-dir": "~1.0.1",
     "delegate-dom": "0.0.1",
     "electron-prebuilt": "~0.25.3-2",
