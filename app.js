@@ -274,7 +274,7 @@ App.prototype.checkBlockHeight = function checkBlockHeight() {
     debug('blocks: %d', blocks)
     debug('best height: %d', bestHeight)
     if (blocks < bestHeight) {
-      var percentage = blocks / bestHeight
+      var percentage = Math.round((blocks / bestHeight) * 100)
       bar.style.width = percentage + '%'
     } else {
       bar.style.width = '100%'
