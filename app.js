@@ -227,7 +227,7 @@ App.prototype.getInfo = function getInfo(cb) {
 
 App.prototype.getWallet = function getWallet(cb) {
   var self = this
-  this.client.getAccounts(function(err, wallets) {
+  this.client.listAccounts(function(err, wallets) {
     if (err) return cb(err)
     self.data.accounts = wallets
     cb && cb()
