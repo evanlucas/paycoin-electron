@@ -1,7 +1,6 @@
 extends ./layouts/default
 
 block main
-  +loadingScreen()
   script.
     if (typeof require !== 'function') {
       // If we are in a web env
