@@ -59,8 +59,11 @@ function App(el, currentWindow) {
     if (self.activeNav === href) return false
     if (self.activeNavNode)
       self.activeNavNode.classList.remove('active')
-    self.activeNavNode = a.parentNode
-    self.activeNavNode.classList.add('active')
+    if (a.parentNode) {
+      self.activeNavNode = a.parentNode
+      self.activeNavNode.classList.add('active')
+    }
+
     self.emit('nav', href)
     return false
   })
