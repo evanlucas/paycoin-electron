@@ -13,6 +13,7 @@ var EE = require('events').EventEmitter
   , patch = require('virtual-dom/patch')
   , delegate = require('delegate-dom')
   , dom = require('./lib/dom')
+  , debug = require('bows')('paycoin:app')
 
 // Views
 
@@ -54,6 +55,7 @@ function App(el, currentWindow) {
       a = e.target.parentNode
       href = a.getAttribute('href')
     }
+    debug('nav change: href=%s', href)
     if (self.activeNav === href) return false
     if (self.activeNavNode)
       self.activeNavNode.classList.remove('active')
@@ -257,6 +259,7 @@ App.prototype.alert = function(title, msg) {
 }
 
 App.prototype.checkBlockHeight = function checkBlockHeight() {
+  debug('checking block height')
   var self = this
   self.client.getBlockInfo(function(err, bestHeight) {
     if (err) {
@@ -268,6 +271,8 @@ App.prototype.checkBlockHeight = function checkBlockHeight() {
     self.data.bestPeerHeight = bestHeight
     var blocks = self.data.info.blocks
     var bar = ele.querySelector('.progress-bar')
+    debug('blocks: %d', blocks)
+    debug('best height: %d', bestHeight)
     if (blocks < bestHeight) {
       var percentage = blocks / bestHeight
       bar.style.width = percentage + '%'
