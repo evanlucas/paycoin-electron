@@ -1,10 +1,3 @@
-mixin loadingScreen()
-  .loading-panel.js-loading-panel.draggable.hide
-    svg.loading-spinner(xmlns='http://www.w3.org/2000/svg', viewbox='0 0 32 32')
-      path(opacity='.25', d='M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4')
-      path(d='M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z')
-      animatetransform(attributename='transform', type='rotate', from='0 16 16', to='360 16 16', dur='.8s', repeatcount='indefinite')
-
 mixin slimBar()
   .menu-bar.w-full.bg-primary.sync-status
     .row
@@ -39,14 +32,15 @@ mixin appNav()
         a.js-tab-balance.padder(href='#overview')
           i.fa.fa-home.m-r-sm.text-white
           span.text-md.text-white Overview
-      li
-        a.js-tab-send.padder(href='#send')
-          i.fa.fa-chevron-up.m-r-sm.text-white
-          span.text-md.text-white Send
-      li
-        a.js-tab-transaction.padder(href='#receive')
-          i.fa.fa-chevron-down.m-r-sm.text-white
-          span.text-md.text-white Receive
+      //
+        li
+          a.js-tab-send.padder(href='#send')
+            i.fa.fa-chevron-up.m-r-sm.text-white
+            span.text-md.text-white Send
+        li
+          a.js-tab-transaction.padder(href='#receive')
+            i.fa.fa-chevron-down.m-r-sm.text-white
+            span.text-md.text-white Receive
       li
         a.js-tab-transaction.padder(href='#history')
           i.fa.fa-list.m-r-sm.text-white
