@@ -46,15 +46,8 @@ function App(el, currentWindow) {
     '#nav a, #nav a .inner, #nav a .inner i'
   delegate.on(el, sels, 'click', function(e) {
     e.preventDefault()
-    var tag = e.target.tagName
-    var href, a
-    if (tag === 'A') {
-      a = e.target
-      href = a.getAttribute('href')
-    } else {
-      a = e.target.parentNode
-      href = a.getAttribute('href')
-    }
+    var a = getParentA(e.target)
+    var href = a.getAttribute('href')
     debug('nav change: href=%s', href)
     if (self.activeNav === href) return false
     if (self.activeNavNode)
@@ -148,6 +141,17 @@ function App(el, currentWindow) {
       render()
     })
   })
+}
+
+function getParentA(target, idx) {
+  idx = idx || 0
+  if (idx > 5) return null
+  var tag = target.tagName
+  var a
+  if (tag === 'A')
+    return target
+
+  return getParentA(target.parentNode, idx + 1)
 }
 
 App.prototype.render = function render() {
