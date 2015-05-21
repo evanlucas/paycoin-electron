@@ -83,6 +83,9 @@ function App(el, currentWindow) {
   , settings: {}
   , sendResults: ''
   , bestPeerHeight: 0
+  , currentRecentTxIndex: 0
+  , recentTxs: []
+  , recentTxIndex: 0
   }
 
   self.connect()
@@ -108,6 +111,7 @@ function App(el, currentWindow) {
     el.querySelector('.app').appendChild(rootNode)
     self.activeNavNode = document.querySelector('#navigation .active')
     self.checkBlockHeight()
+    self.updateRecent()
   })
 
   function render() {
@@ -154,13 +158,46 @@ function getParentA(target, idx) {
   return getParentA(target.parentNode, idx + 1)
 }
 
+App.prototype.updateRecent = function updateRecent(idx, cb) {
+  var self = this
+  var data = self.data
+  if ('function' === typeof idx) {
+    cb = idx
+    idx = 0
+  }
+  idx = idx || 0
+  debug(`updateRecent ${idx}`)
+  if (!data.transactions.length) {
+    // fetch them
+    return self.client.getTransactions(function(err, txs) {
+      if (err) return cb && cb(err)
+      txs = txs.sort(function(a, b) {
+        return a.time < b.time
+          ? 1
+          : a.time > b.time
+          ? -1
+          : 0
+      })
+      self.data.transactions = txs
+      return self.updateRecent(cb)
+    })
+  }
+  var txlen = self.data.transactions.length
+  var end = idx + 3 > txlen
+    ? txlen
+    : idx + 3
+  self.data.recentTxs = self.data.transactions.slice(idx, end)
+  self.data.recentTxIndex = idx
+  cb && cb(null, idx)
+}
+
 App.prototype.render = function render() {
   var self = this
   var views = self.views
   var data = self.data
   var n = self.activeNav
   if (n === '#overview') {
-    return wrap(views.overview.render(data.info))
+    return wrap(views.overview.render(data.info, data.recentTxs))
   } else if (n === '#receive') {
     return wrap(views.wallet.render(data.info, data.accounts))
   } else if (n === '#history') {
