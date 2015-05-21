@@ -20,21 +20,27 @@ if (parsed.config) {
   process.env.XPY_CONFIG = parsed.config
 }
 
-var daemon = require('./lib/daemon')
+var daemon = require('./lib/daemon')()
 
 if (!parsed.daemon && process.platform === 'darwin') {
   daemon.start()
 }
-
-process.on('exit', function() {
-  daemon.stop()
-})
 
 var app = require('app')
 app.on('ready', setup)
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit()
+  }
+})
+
+daemon.on('stopped', function() {
+  app.quit()
+})
+
+app.on('before-quit', function() {
+  if (daemon.running) {
+    daemon.stop()
   }
 })
 
