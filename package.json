@@ -6,7 +6,6 @@
   "dependencies": {
     "argsplit": "~1.0.1",
     "bitcoin": "~2.3.0",
-    "bows": "~1.4.2",
     "crypto-dir": "~1.0.1",
     "delegate-dom": "0.0.1",
     "electron-prebuilt": "~0.25.3-2",
@@ -14,6 +13,7 @@
     "jade": "~1.9.2",
     "mkdirp": "~0.5.0",
     "nopt": "~3.0.1",
+    "silence-chromium": "~2.0.0",
     "virtual-dom": "~2.0.1"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "jade views/index.jade",
-    "start": "electron .",
+    "start": "electron . 2>&1 | silence-chromium",
     "package-osx": "electron-packager . Paycoin --platform=darwin --arch=x64 --version=0.26.0 --icon resources/paycoin.icns --app-bundle-id=com.evanlucas.paycoin --prune --protocol='paycoin' --protocol-name='Paycoin Transaction Protocol'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

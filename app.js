@@ -13,7 +13,7 @@ var EE = require('events').EventEmitter
   , patch = require('virtual-dom/patch')
   , delegate = require('delegate-dom')
   , dom = require('./lib/dom')
-  , debug = require('bows')('paycoin:app')
+  , log = require('./lib/log')
 
 // Views
 
@@ -48,7 +48,7 @@ function App(el, currentWindow) {
     e.preventDefault()
     var a = getParentA(e.target)
     var href = a.getAttribute('href')
-    debug('nav change: href=%s', href)
+    log('nav change: href=%s', href)
     if (self.activeNav === href) return false
     if (self.activeNavNode)
       self.activeNavNode.classList.remove('active')
@@ -166,7 +166,7 @@ App.prototype.updateRecent = function updateRecent(idx, cb) {
     idx = 0
   }
   idx = idx || 0
-  debug(`updateRecent ${idx}`)
+  log(`updateRecent ${idx}`)
   if (!data.transactions.length) {
     // fetch them
     return self.client.getTransactions(function(err, txs) {
@@ -249,7 +249,7 @@ App.prototype.error = function error(cmd, err) {
   var self = this
   if (err.code === 'ECONNREFUSED') {
     // ask if daemon is running
-    console.log('Connection Refused. Is the daemon running?')
+    log('Connection Refused. Is the daemon running?')
     self.alert('Error connecting to paycoind', 'Is the daemon running?')
     setTimeout(function() {
       self.connect()
@@ -303,11 +303,11 @@ App.prototype.alert = function(title, msg) {
 }
 
 App.prototype.checkBlockHeight = function checkBlockHeight() {
-  debug('checking block height')
+  log('checking block height')
   var self = this
   self.client.getBlockInfo(function(err, bestHeight) {
     if (err) {
-      console.log('error checking sync state: ' + err.message)
+      log('error checking sync state: ' + err.message)
       return self.alert('Error checking sync state')
     }
 
@@ -315,8 +315,8 @@ App.prototype.checkBlockHeight = function checkBlockHeight() {
     self.data.bestPeerHeight = bestHeight
     var blocks = self.data.info.blocks
     var bar = ele.querySelector('.progress-bar')
-    debug('blocks: %d', blocks)
-    debug('best height: %d', bestHeight)
+    log('blocks: %d', blocks)
+    log('best height: %d', bestHeight)
     if (blocks < bestHeight) {
       var percentage = Math.round((blocks / bestHeight) * 100)
       bar.style.width = percentage + '%'
