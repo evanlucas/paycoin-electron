@@ -46,7 +46,7 @@ mixin appNav()
           span.text-md.text-white Settings
 
 mixin appInfo()
-  .title-bar-buttons.inline
+  .title-bar-buttons.inline(style='height: 22px;')
     a(data-toggle='tooltip', data-placement='top', title='Reload Wallet').js-refresh.m-xs
       i.fa.fa-refresh
     a(data-toggle='tooltip', data-placement='top', title='Not Currently Staking').js-stake.m-xs
