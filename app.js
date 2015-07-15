@@ -77,7 +77,7 @@ function App(el, currentWindow) {
     , testnet: false
     , paytxfee: 0
     }
-  , transactions: []
+  , transactions: null
   , accounts: []
   , staking: []
   , settings: {}
@@ -167,7 +167,7 @@ App.prototype.updateRecent = function updateRecent(idx, cb) {
   }
   idx = idx || 0
   log(`updateRecent ${idx}`)
-  if (!data.transactions.length) {
+  if (!data.transactions) {
     // fetch them
     return self.client.getTransactions(function(err, txs) {
       if (err) return cb && cb(err)
@@ -183,6 +183,11 @@ App.prototype.updateRecent = function updateRecent(idx, cb) {
     })
   }
   var txlen = self.data.transactions.length
+  if (!txlen) {
+    self.data.recentTxs = []
+    self.data.recentTxIndex = 0
+    return cb && cb(null, idx)
+  }
   var end = idx + 3 > txlen
     ? txlen
     : idx + 3
