@@ -1,11 +1,15 @@
 var BrowserWindow = require('browser-window')
   , path = require('path')
   , nopt = require('nopt')
-  , knownOpts = { config: path
+  , knownOpts = { conf: path
                 , 'no-daemon': Boolean
+                , datadir: path
+                , debug: Boolean
                 }
-  , shortHand = { c: ['--config']
+  , shortHand = { c: ['--conf']
                 , n: ['--no-daemon']
+                , d: ['--datadir']
+                , D: ['--debug']
                 }
   , parsed = nopt(knownOpts, shortHand)
   , Menu = require('menu')
@@ -16,11 +20,11 @@ var index = 'file://' + path.join(__dirname, 'views', 'index.html')
 var splashUrl = 'file://' +
   path.join(__dirname, 'lib', 'windows', 'loading.html')
 
-if (parsed.config) {
-  process.env.XPY_CONFIG = parsed.config
+if (parsed.conf) {
+  process.env.XPY_CONFIG = parsed.conf
 }
 
-var daemon = require('./lib/daemon')()
+var daemon = require('./lib/daemon')(parsed)
 
 if (!parsed.daemon && process.platform === 'darwin') {
   daemon.start()
