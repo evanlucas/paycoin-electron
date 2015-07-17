@@ -3,54 +3,72 @@ var BrowserWindow = require('browser-window')
   , nopt = require('nopt')
   , knownOpts = { conf: path
                 , 'no-daemon': Boolean
-                , datadir: path
                 , debug: Boolean
+                , printtoconsole: Boolean
+                , datadir: path
                 }
   , shortHand = { c: ['--conf']
                 , n: ['--no-daemon']
+                , p: ['--printtoconsole']
                 , d: ['--datadir']
                 , D: ['--debug']
                 }
-  , parsed = nopt(knownOpts, shortHand)
+  , app = require('app')
   , Menu = require('menu')
   , MenuItem = require('menu-item')
+  , config = require('./lib/config')
 
 var name = 'Paycoin'
 var index = 'file://' + path.join(__dirname, 'views', 'index.html')
 var splashUrl = 'file://' +
   path.join(__dirname, 'lib', 'windows', 'loading.html')
 
-if (parsed.conf) {
-  process.env.XPY_CONFIG = parsed.conf
-}
-
-var daemon = require('./lib/daemon')(parsed)
-
-if (!parsed.daemon && process.platform === 'darwin') {
-  daemon.start()
-}
-
-var app = require('app')
 app.on('ready', setup)
+
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-daemon.on('stopped', function() {
-  app.quit()
-})
-
-app.on('before-quit', function() {
-  if (daemon.running) {
-    daemon.stop()
-  }
-})
+var daemon
 
 var mainWindow, splash
 
 function setup() {
+  var parsed = nopt(knownOpts, shortHand)
+  var opts = {
+    debug: parsed.debug
+  , printtoconsole: parsed.printtoconsole
+  , conf: parsed.conf
+  , datadir: parsed.datadir
+  }
+
+  if (opts.conf) {
+    console.log('using', opts.conf)
+    process.env.XPY_CONFIG = parsed.conf
+    config.filepath = opts.conf
+  }
+
+  if (opts.datadir) {
+    console.log('setting dir', opts.datadir)
+    config.dir = opts.datadir
+  }
+
+  daemon = require('./lib/daemon')(opts)
+  if (!parsed.daemon && process.platform === 'darwin') {
+    daemon.start()
+  }
+
+  daemon.on('stopped', function() {
+    app.quit()
+  })
+
+  app.on('before-quit', function() {
+    if (daemon.running) {
+      daemon.stop()
+    }
+  })
   // TODO(evanlucas) Add custom protocol handler
   // that will direct to the send page and pre-populate the fields
 
@@ -90,6 +108,10 @@ function setup() {
 
     mainWindow.on('page-title-updated', function(e) {
       e.preventDefault()
+    })
+
+    mainWindow.webContents.on('did-finish-load', function() {
+      mainWindow.webContents.send('daemon-opts', opts)
     })
   })
 }

@@ -6,7 +6,6 @@ var EE = require('events').EventEmitter
   , bitcoin = require('./lib/bitcoin')
   , remote = require('remote')
   , BrowserWindow = remote.require('browser-window')
-  , config = require('./lib/config')
   , createElement = require('virtual-dom/create-element')
   , diff = require('virtual-dom/diff')
   , h = require('virtual-dom/h')
@@ -14,6 +13,8 @@ var EE = require('events').EventEmitter
   , delegate = require('delegate-dom')
   , dom = require('./lib/dom')
   , log = require('./lib/log')
+  , ipc = require('ipc')
+  , config = require('./lib/config')
 
 // Views
 
@@ -38,6 +39,17 @@ function App(el, currentWindow) {
   if (localStorage.paycoin) {
     delete localStorage.paycoin
   }
+
+  ipc.on('daemon-opts', function(msg) {
+    if (msg.datadir) {
+      config.dir = msg.datadir
+    }
+    if (msg.conf) {
+      config.filename = msg.conf
+    }
+
+    self.connect()
+  })
 
   var nav = require('./lib/nav')(this)
   nav.setup()
@@ -87,8 +99,6 @@ function App(el, currentWindow) {
   , recentTxs: []
   , recentTxIndex: 0
   }
-
-  self.connect()
 
   this.infoTimeout = null
 
